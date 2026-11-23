@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đèn Kéo Quân - Bài tập 24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .header-info {
+            margin-bottom: 20px;
+        }
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        /* Khung chứa không gian 3D */
+        .scene {
+            width: 220px;
+            height: 280px;
+            margin: 60px auto;
+            perspective: 1000px; /* Tạo chiều sâu 3D */
+        }
+        /* Trục xoay của đèn */
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        /* Từng mặt của đèn kéo quân (6 mặt -> mỗi mặt cách nhau 60 độ) */
+        .carousel-face {
+            position: absolute;
+            width: 200px;
+            height: 260px;
+            left: 10px;
+            top: 10px;
+            border: 3px solid #f1c40f;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .carousel-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Sắp xếp 6 mặt tạo thành hình lục giác đều */
+        .face-1 { transform: rotateY(0deg) translateZ(220px); }
+        .face-2 { transform: rotateY(60deg) translateZ(220px); }
+        .face-3 { transform: rotateY(120deg) translateZ(220px); }
+        .face-4 { transform: rotateY(180deg) translateZ(220px); }
+        .face-5 { transform: rotateY(240deg) translateZ(220px); }
+        .face-6 { transform: rotateY(300deg) translateZ(220px); }
+    </style>
+</head>
+<body>
+
+    <div class="header-info">
+        <h2>ĐÈN KÉO QUÂN (JAVASCRIPT)</h2>
+        <p>SV: Nguyễn Tấn Quý - MSSV: 241A010522</p>
+        <p><i>(Đưa chuột vào ảnh để dừng đèn, rê chuột ra để đèn quay tiếp)</i></p>
+    </div>
+
+    <a href="index.html" class="btn-back">← Quay lại Trang chủ</a>
+
+    <div class="scene">
+        <div class="carousel" id="denKeoQuan">
+            <div class="carousel-face face-1"><img src="images/anh1.jpg" alt="Ảnh 1"></div>
+            <div class="carousel-face face-2"><img src="images/anh2.jpg" alt="Ảnh 2"></div>
+            <div class="carousel-face face-3"><img src="images/anh3.jpg" alt="Ảnh 3"></div>
+            <div class="carousel-face face-4"><img src="images/anh4.jpg" alt="Ảnh 4"></div>
+            <div class="carousel-face face-5"><img src="images/anh5.jpg" alt="Ảnh 5"></div>
+            <div class="carousel-face face-6"><img src="images/anh6.jpg" alt="Ảnh 6"></div>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.getElementById('denKeoQuan');
+        const faces = document.querySelectorAll('.carousel-face');
+        
+        let angle = 0;          // Góc xoay hiện tại
+        let isPaused = false;   // Trạng thái dừng hay quay
+
+        // Hàm thực hiện vòng lặp xoay đèn
+        function rotateCarousel() {
+            if (!isPaused) {
+                angle += 0.5; // Tốc độ xoay (tăng số này nếu muốn quay nhanh hơn)
+                carousel.style.transform = `rotateY(${angle}deg)`;
+            }
+            requestAnimationFrame(rotateCarousel);
+        }
+
+        // Bắt sự kiện khi đưa chuột vào từng mặt ảnh -> Dừng quay
+        faces.forEach(face => {
+            face.addEventListener('mouseenter', () => {
+                isPaused = true;
+            });
+
+            // Bắt sự kiện khi rê chuột ra khỏi ảnh -> Quay tiếp
+            face.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+        });
+
+        // Bắt đầu chạy hiệu ứng
+        rotateCarousel();
+    </script>
+
+</body>
+</html>
